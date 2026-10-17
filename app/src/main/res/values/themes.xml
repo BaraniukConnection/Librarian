@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- до першого кадру Compose вікно вже кольору bg світлої теми, тож запуск не блимає -->
+    <style name="Theme.Librarian" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="android:windowBackground">@color/bg_light</item>
+    </style>
+    <color name="bg_light">#F3FAF7</color>
+</resources>

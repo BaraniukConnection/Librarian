@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Librarian launcher foreground. Mark drawn on a 256-unit grid, scaled into the 66dp safe zone of a 108dp adaptive icon. -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+    <group
+        android:scaleX="0.20455"
+        android:scaleY="0.20455"
+        android:translateX="27.8182"
+        android:translateY="27.8182">
+        <group android:translateY="-10">
+            <path android:fillColor="#8CC1AD" android:pathData="M61 72H79A9 9 0 0 1 88 81V189A9 9 0 0 1 79 198H61A9 9 0 0 1 52 189V81A9 9 0 0 1 61 72Z" />
+            <path android:fillColor="#8CC1AD" android:pathData="M105 54H123A9 9 0 0 1 132 63V189A9 9 0 0 1 123 198H105A9 9 0 0 1 96 189V63A9 9 0 0 1 105 54Z" />
+            <group android:rotation="-22" android:pivotX="179.7" android:pivotY="198">
+                <path android:fillColor="#8CC1AD" android:pathData="M188.7 76H206.7A9 9 0 0 1 215.7 85V189A9 9 0 0 1 206.7 198H188.7A9 9 0 0 1 179.7 189V85A9 9 0 0 1 188.7 76Z" />
+            </group>
+            <path android:fillColor="#8CC1AD" android:pathData="M48 206H208A8 8 0 0 1 216 214V214A8 8 0 0 1 208 222H48A8 8 0 0 1 40 214V214A8 8 0 0 1 48 206Z" />
+        </group>
+    </group>
+</vector>

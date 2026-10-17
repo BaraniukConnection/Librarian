@@ -1,0 +1,354 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Librarian — offline e-book reader for Android</title>
+<meta name="description" content="A calm, offline e-book reader for Android. EPUB, FB2 and TXT. No account, no cloud, no tracking.">
+<meta property="og:title" content="Librarian">
+<meta property="og:description" content="A calm, offline e-book reader for Android. EPUB, FB2 and TXT.">
+<meta property="og:image" content="../docs/banner.png">
+<link rel="icon" href="../docs/icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Literata:ital,wght@0,400;0,600;1,400&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #f3faf7; --surface: #ffffff; --surface-variant: #dff2eb; --line: #d3e8df;
+  --ink: #1a2f24; --ink-muted: #4a6b5a; --accent: #13eca4; --on-accent: #0b1f18;
+  --accent-ink: #047857; --accent-soft: #d0fbed; --tool: #16332a; --tool-icon: #bfd9ce;
+  --elev-1: 0 1px 3px rgba(16,34,28,.12), 0 1px 2px rgba(16,34,28,.08);
+  --elev-3: 0 10px 28px rgba(16,34,28,.16);
+  --glow: #d0fbed;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #10221c; --surface: #162e26; --surface-variant: #233932; --line: #23483c;
+    --ink: #e6f2ec; --ink-muted: #92c9b7; --accent-ink: #13eca4; --accent-soft: #15543f;
+    --elev-1: 0 1px 3px rgba(0,0,0,.45); --elev-3: 0 10px 28px rgba(0,0,0,.55); --glow: #15543f;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #10221c; --surface: #162e26; --surface-variant: #233932; --line: #23483c;
+  --ink: #e6f2ec; --ink-muted: #92c9b7; --accent-ink: #13eca4; --accent-soft: #15543f;
+  --elev-1: 0 1px 3px rgba(0,0,0,.45); --elev-3: 0 10px 28px rgba(0,0,0,.55); --glow: #15543f;
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } * { transition: none !important; } }
+body {
+  margin: 0; background: var(--bg); color: var(--ink);
+  font: 400 16px/26px Manrope, Roboto, system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+a { color: var(--accent-ink); text-decoration: none; }
+a:hover { text-decoration: underline; }
+.wrap { max-width: 1120px; margin: 0 auto; padding: 0 24px; }
+svg.i { width: 22px; height: 22px; fill: currentColor; flex-shrink: 0; }
+
+/* top bar */
+header.top { position: sticky; top: 0; z-index: 10; background: color-mix(in srgb, var(--bg) 88%, transparent); backdrop-filter: blur(12px); border-bottom: 1px solid transparent; }
+header.top.scrolled { border-bottom-color: var(--line); }
+header.top .wrap { display: flex; align-items: center; gap: 16px; min-height: 68px; }
+.brand { display: flex; align-items: center; gap: 12px; font-weight: 800; font-size: 20px; color: var(--ink); }
+.brand img { width: 36px; height: 36px; border-radius: 10px; }
+nav.links { margin-left: auto; display: flex; gap: 4px; align-items: center; }
+nav.links a { color: var(--ink-muted); font-weight: 600; font-size: 14px; padding: 8px 12px; border-radius: 9999px; }
+nav.links a:hover { background: var(--surface-variant); color: var(--ink); text-decoration: none; }
+.iconbtn { width: 44px; height: 44px; border-radius: 9999px; border: 0; background: var(--surface-variant); color: var(--accent-ink); display: inline-flex; align-items: center; justify-content: center; cursor: pointer; }
+.iconbtn svg { width: 20px; height: 20px; fill: currentColor; }
+.iconbtn:focus-visible, .btn:focus-visible, nav.links a:focus-visible, .seg button:focus-visible { outline: 2px solid var(--accent-ink); outline-offset: 2px; }
+@media (max-width: 720px) { nav.links a.hide-sm { display: none; } }
+
+/* hero */
+.hero { position: relative; overflow: hidden; padding: 72px 0 24px; text-align: center; }
+.hero::before { content: ""; position: absolute; left: 50%; top: -380px; width: 1100px; height: 700px; transform: translateX(-50%); background: radial-gradient(closest-side, var(--glow), transparent); opacity: .9; pointer-events: none; }
+.hero > * { position: relative; }
+.hero .app-icon { width: 96px; height: 96px; border-radius: 24px; box-shadow: var(--elev-3); }
+.hero h1 { font-size: clamp(40px, 6vw, 64px); line-height: 1.05; font-weight: 800; letter-spacing: -1px; margin: 24px 0 12px; }
+.hero h1 em { font-family: Literata, Georgia, serif; font-style: italic; font-weight: 400; color: var(--accent-ink); }
+.hero p.lead { font-size: 19px; line-height: 30px; color: var(--ink-muted); max-width: 640px; margin: 0 auto; }
+.cta { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; margin: 32px 0 12px; }
+.btn { display: inline-flex; align-items: center; gap: 8px; height: 56px; padding: 0 24px; border-radius: 16px; font-weight: 700; font-size: 15px; border: 0; cursor: pointer; }
+.btn svg { width: 20px; height: 20px; fill: currentColor; }
+.btn.primary { background: var(--accent); color: var(--on-accent); box-shadow: 0 6px 14px rgba(19,236,164,.28); }
+.btn.secondary { color: var(--accent-ink); box-shadow: inset 0 0 0 2px var(--accent-ink); }
+.btn:hover { text-decoration: none; filter: brightness(1.03); }
+.meta { font-size: 13px; color: var(--ink-muted); font-weight: 600; }
+.banner { margin: 40px auto 0; max-width: 1200px; }
+.banner img { width: 100%; height: auto; display: block; border-radius: 24px; }
+
+/* sections */
+section { padding: 72px 0; }
+.overline { font-size: 13px; line-height: 18px; font-weight: 700; letter-spacing: 1.6px; text-transform: uppercase; color: var(--ink-muted); margin: 0 0 8px; }
+h2 { font-size: clamp(28px, 4vw, 40px); line-height: 1.15; font-weight: 800; letter-spacing: -.5px; margin: 0 0 16px; }
+.sub { color: var(--ink-muted); max-width: 640px; margin: 0 0 40px; font-size: 17px; line-height: 28px; }
+
+.principles { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
+.card { background: var(--surface); border-radius: 16px; box-shadow: var(--elev-1); padding: 24px; }
+.card h3 { font-size: 16px; line-height: 22px; font-weight: 700; margin: 16px 0 6px; }
+.card p { margin: 0; font-size: 14px; line-height: 21px; color: var(--ink-muted); }
+.disc { width: 44px; height: 44px; border-radius: 9999px; background: var(--accent-soft); color: var(--accent-ink); display: inline-flex; align-items: center; justify-content: center; }
+@media (max-width: 960px) { .principles { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 560px) { .principles { grid-template-columns: 1fr; } }
+
+/* features: text + phone */
+.feature { display: grid; grid-template-columns: 1fr 1fr; gap: 56px; align-items: center; padding: 40px 0; }
+.feature.flip .text { order: 2; }
+.feature ul { list-style: none; padding: 0; margin: 20px 0 0; display: grid; gap: 12px; }
+.feature li { display: flex; gap: 12px; color: var(--ink); font-size: 15px; line-height: 24px; }
+.feature li svg { color: var(--accent-ink); margin-top: 1px; }
+.phones { display: flex; gap: 20px; justify-content: center; }
+.phone { width: 260px; max-width: 46%; border-radius: 36px; padding: 9px; background: #16332a; box-shadow: var(--elev-3); }
+.phone img { display: block; width: 100%; height: auto; border-radius: 28px; }
+.phones .phone:nth-child(2) { transform: translateY(32px); }
+@media (max-width: 860px) {
+  .feature { grid-template-columns: 1fr; gap: 32px; }
+  .feature.flip .text { order: 0; }
+}
+
+/* colours strip */
+.marks { display: flex; gap: 10px; margin-top: 24px; flex-wrap: wrap; }
+.marks span { width: 30px; height: 30px; border-radius: 9999px; box-shadow: var(--elev-1); }
+
+/* gallery */
+.seg { display: inline-flex; padding: 4px; border-radius: 9999px; background: var(--surface-variant); margin-bottom: 32px; }
+.seg button { font: inherit; font-size: 13px; font-weight: 600; border: 0; background: transparent; color: var(--ink-muted); padding: 8px 18px; border-radius: 9999px; cursor: pointer; display: inline-flex; gap: 6px; align-items: center; }
+.seg button svg { width: 16px; height: 16px; fill: currentColor; }
+.seg button[aria-pressed="true"] { background: var(--accent); color: var(--on-accent); font-weight: 700; }
+.gallery { display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px 20px; }
+.gallery figure { margin: 0; }
+.gallery .phone { width: 100%; max-width: none; border-radius: 30px; padding: 7px; }
+.gallery .phone img { border-radius: 24px; }
+.gallery figcaption { text-align: center; font-size: 13px; font-weight: 600; color: var(--ink-muted); margin-top: 12px; }
+@media (max-width: 860px) { .gallery { grid-template-columns: repeat(2, 1fr); } }
+
+/* formats */
+.formats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+.formats .card h3 { margin-top: 0; font-size: 22px; line-height: 28px; }
+.formats .tag { display: inline-block; font-size: 12px; font-weight: 700; letter-spacing: 1px; color: var(--accent-ink); background: var(--accent-soft); padding: 3px 10px; border-radius: 9999px; margin-bottom: 12px; }
+@media (max-width: 760px) { .formats { grid-template-columns: 1fr; } }
+
+/* build */
+.build { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+pre { margin: 0; background: var(--tool); color: var(--tool-icon); border-radius: 16px; padding: 20px 22px; overflow-x: auto; font: 14px/22px ui-monospace, "JetBrains Mono", Menlo, Consolas, monospace; }
+pre .c { color: #6f9c8a; }
+.stack { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 16px; }
+.stack span { font-size: 13px; font-weight: 600; color: var(--ink-muted); background: var(--surface-variant); padding: 6px 14px; border-radius: 9999px; }
+@media (max-width: 760px) { .build { grid-template-columns: 1fr; } }
+
+footer { border-top: 1px solid var(--line); padding: 32px 0 48px; color: var(--ink-muted); font-size: 14px; }
+footer .wrap { display: flex; gap: 24px; justify-content: space-between; flex-wrap: wrap; }
+.reading-sample { font-family: Literata, Georgia, serif; font-size: 19px; line-height: 32px; color: var(--ink); text-align: justify; hyphens: auto; margin: 24px 0 0; max-width: 520px; }
+.reading-sample mark { background: rgba(245,158,11,.32); color: inherit; border-radius: 3px; padding: 0 1px; }
+</style>
+</head>
+<body>
+
+<header class="top" id="top">
+  <div class="wrap">
+    <a class="brand" href="#"><img src="../docs/icon.png" alt="">Librarian</a>
+    <nav class="links" aria-label="Sections">
+      <a href="#features" class="hide-sm">Features</a>
+      <a href="#screens" class="hide-sm">Screens</a>
+      <a href="#formats" class="hide-sm">Formats</a>
+      <a href="https://github.com/OleksiiBaraniuk/Librarian">GitHub</a>
+      <button class="iconbtn" id="themeToggle" type="button" aria-label="Switch theme"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21Q8.25 21 5.62 18.38Q3 15.75 3 12Q3 8.25 5.62 5.62Q8.25 3 12 3Q12.35 3 12.69 3.02Q13.03 3.05 13.35 3.1Q12.33 3.82 11.71 4.99Q11.1 6.15 11.1 7.5Q11.1 9.75 12.68 11.32Q14.25 12.9 16.5 12.9Q17.88 12.9 19.02 12.29Q20.18 11.67 20.9 10.65Q20.95 10.97 20.98 11.31Q21 11.65 21 12Q21 15.75 18.38 18.38Q15.75 21 12 21Z"/></svg></button>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <div class="hero">
+    <div class="wrap">
+      <img class="app-icon" src="../docs/icon.png" alt="Librarian app icon" width="96" height="96">
+      <h1>Read. <em>Nothing else.</em></h1>
+      <p class="lead">A calm, offline e-book reader for Android. EPUB, FB2 and TXT. No account, no cloud, no tracking: your books stay on your phone.</p>
+      <div class="cta">
+        <a class="btn primary" href="https://github.com/OleksiiBaraniuk/Librarian/raw/main/releases/Librarian_L1.apk"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20Q10.8 19.05 9.4 18.52Q8 18 6.5 18Q5.45 18 4.44 18.27Q3.43 18.55 2.5 19.05Q1.98 19.32 1.49 19.02Q1 18.73 1 18.15V6.1Q1 5.82 1.14 5.57Q1.28 5.32 1.55 5.2Q2.7 4.6 3.95 4.3Q5.2 4 6.5 4Q7.95 4 9.34 4.38Q10.73 4.75 12 5.5V17.6Q13.28 16.8 14.68 16.4Q16.07 16 17.5 16Q18.4 16 19.26 16.15Q20.12 16.3 21 16.6Q21 16.6 21 16.6Q21 16.6 21 16.6V4.6Q21.38 4.72 21.74 4.86Q22.1 5 22.45 5.2Q22.73 5.32 22.86 5.57Q23 5.82 23 6.1V18.15Q23 18.73 22.51 19.02Q22.03 19.32 21.5 19.05Q20.58 18.55 19.56 18.27Q18.55 18 17.5 18Q16 18 14.6 18.52Q13.2 19.05 12 20ZM14 15V5.5L19 0.5V10.5Z"/></svg>Download APK</a>
+        <a class="btn secondary" href="https://github.com/OleksiiBaraniuk/Librarian">View on GitHub</a>
+      </div>
+      <div class="meta">Version L 1 · Android 8.0+ · English &amp; Українська</div>
+    </div>
+    <div class="banner wrap"><img data-light="../docs/banner.png" data-dark="../docs/banner-dark.png" src="../docs/banner.png" alt="Librarian screens: library, reading, highlighting, light and dark themes" width="2400" height="1200"></div>
+  </div>
+
+  <section id="principles">
+    <div class="wrap">
+      <p class="overline">Design</p>
+      <h2>Made to get out of the way</h2>
+      <p class="sub">Librarian belongs to the Oxygen Theme family: green-tinted calm, one mint accent, and nothing on screen that doesn't earn its place.</p>
+      <div class="principles">
+        <div class="card"><span class="disc"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20Q10.8 19.05 9.4 18.52Q8 18 6.5 18Q5.45 18 4.44 18.27Q3.43 18.55 2.5 19.05Q1.98 19.32 1.49 19.02Q1 18.73 1 18.15V6.1Q1 5.82 1.14 5.57Q1.28 5.32 1.55 5.2Q2.7 4.6 3.95 4.3Q5.2 4 6.5 4Q7.95 4 9.34 4.38Q10.73 4.75 12 5.5V17.6Q13.28 16.8 14.68 16.4Q16.07 16 17.5 16Q18.4 16 19.26 16.15Q20.12 16.3 21 16.6Q21 16.6 21 16.6Q21 16.6 21 16.6V4.6Q21.38 4.72 21.74 4.86Q22.1 5 22.45 5.2Q22.73 5.32 22.86 5.57Q23 5.82 23 6.1V18.15Q23 18.73 22.51 19.02Q22.03 19.32 21.5 19.05Q20.58 18.55 19.56 18.27Q18.55 18 17.5 18Q16 18 14.6 18.52Q13.2 19.05 12 20ZM14 15V5.5L19 0.5V10.5Z"/></svg></span><h3>One place: your library</h3><p>No bottom bar, no floating button. Search, highlights, add and settings sit in one menu behind the arrow.</p></div>
+        <div class="card"><span class="disc"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M14 20V7H9V4H22V7H17V20ZM5 20V12H2V9H11V12H8V20Z"/></svg></span><h3>Reading without chrome</h3><p>The page is all text. Tap the centre for controls; they hide again after five seconds.</p></div>
+        <div class="card"><span class="disc"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M9.6 10 15 15.4 10 20.4Q9.4 21 8.6 21Q7.8 21 7.2 20.4L7.15 20.35L6.5 21H1.5L4.65 17.85L4.6 17.8Q4 17.2 4 16.4Q4 15.6 4.6 15ZM11.03 8.57 16 3.6Q16.6 3 17.4 3Q18.2 3 18.8 3.6L21.4 6.2Q22 6.8 22 7.6Q22 8.4 21.4 9L16.43 13.97Z"/></svg></span><h3>Colour belongs to content</h3><p>Covers without a picture and highlights share the same eight Oxygen mark colours.</p></div>
+        <div class="card"><span class="disc"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 22Q9.93 22 8.1 21.21Q6.28 20.43 4.93 19.08Q3.58 17.73 2.79 15.9Q2 14.07 2 12Q2 9.92 2.79 8.1Q3.58 6.27 4.93 4.92Q6.28 3.57 8.1 2.79Q9.93 2 12 2Q14.08 2 15.9 2.79Q17.73 3.57 19.08 4.92Q20.43 6.27 21.21 8.1Q22 9.92 22 12Q22 14.07 21.21 15.9Q20.43 17.73 19.08 19.08Q17.73 20.43 15.9 21.21Q14.08 22 12 22ZM13 19.93Q15.98 19.55 17.99 17.31Q20 15.07 20 12Q20 8.92 17.99 6.69Q15.98 4.45 13 4.07Z"/></svg></span><h3>Quiet motion</h3><p>Nothing bounces or loops, and nothing moves while you read. Remove animations turns everything into a fade.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="features">
+    <div class="wrap">
+      <div class="feature">
+        <div class="text">
+          <p class="overline">Library</p>
+          <h2>Your shelf, at a glance</h2>
+          <p class="sub" style="margin-bottom:0">Pick up where you left off from the <b>Reading now</b> card, which shows the chapter, your progress and the reading time left.</p>
+          <ul>
+            <li><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 22V8Q4 7.18 4.59 6.59Q5.18 6 6 6H14Q14.83 6 15.41 6.59Q16 7.18 16 8V22L10 19ZM18 18V4Q18 4 18 4Q18 4 18 4H7V2H18Q18.82 2 19.41 2.59Q20 3.17 20 4V18Z"/></svg><span>Shelves: All, Reading, To read, Finished</span></li>
+            <li><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M19.6 21 13.3 14.7Q12.55 15.3 11.58 15.65Q10.6 16 9.5 16Q6.78 16 4.89 14.11Q3 12.22 3 9.5Q3 6.77 4.89 4.89Q6.78 3 9.5 3Q12.23 3 14.11 4.89Q16 6.77 16 9.5Q16 10.6 15.65 11.57Q15.3 12.55 14.7 13.3L21 19.6ZM9.5 14Q11.38 14 12.69 12.69Q14 11.38 14 9.5Q14 7.62 12.69 6.31Q11.38 5 9.5 5Q7.62 5 6.31 6.31Q5 7.62 5 9.5Q5 11.38 6.31 12.69Q7.62 14 9.5 14Z"/></svg><span>Sort by recent, title or author; search by title or author</span></li>
+            <li><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20Q10.8 19.05 9.4 18.52Q8 18 6.5 18Q5.45 18 4.44 18.27Q3.43 18.55 2.5 19.05Q1.98 19.32 1.49 19.02Q1 18.73 1 18.15V6.1Q1 5.82 1.14 5.57Q1.28 5.32 1.55 5.2Q2.7 4.6 3.95 4.3Q5.2 4 6.5 4Q7.95 4 9.34 4.38Q10.73 4.75 12 5.5V17.6Q13.28 16.8 14.68 16.4Q16.07 16 17.5 16Q18.4 16 19.26 16.15Q20.12 16.3 21 16.6Q21 16.6 21 16.6Q21 16.6 21 16.6V4.6Q21.38 4.72 21.74 4.86Q22.1 5 22.45 5.2Q22.73 5.32 22.86 5.57Q23 5.82 23 6.1V18.15Q23 18.73 22.51 19.02Q22.03 19.32 21.5 19.05Q20.58 18.55 19.56 18.27Q18.55 18 17.5 18Q16 18 14.6 18.52Q13.2 19.05 12 20ZM14 15V5.5L19 0.5V10.5Z"/></svg><span>Covers drawn from the book, or generated in Oxygen colours</span></li>
+          </ul>
+          <div class="marks" aria-label="The eight mark colours">
+            <span style="background:#13eca4"></span><span style="background:#3b82f6"></span><span style="background:#f59e0b"></span><span style="background:#ef4444"></span><span style="background:#a855f7"></span><span style="background:#10b981"></span><span style="background:#ec4899"></span><span style="background:#64748b"></span>
+          </div>
+        </div>
+        <div class="phones">
+          <div class="phone"><img data-light="../docs/screenshots/library-light.png" data-dark="../docs/screenshots/library-dark.png" src="../docs/screenshots/library-light.png" alt="Library" width="540" height="1200" loading="lazy"></div>
+          <div class="phone"><img data-light="../docs/screenshots/tray-light.png" data-dark="../docs/screenshots/tray-dark.png" src="../docs/screenshots/tray-light.png" alt="Actions menu open" width="540" height="1200" loading="lazy"></div>
+        </div>
+      </div>
+
+      <div class="feature flip">
+        <div class="text">
+          <p class="overline">Reading</p>
+          <h2>Typeset like a book</h2>
+          <p class="sub" style="margin-bottom:0">Justified text with real hyphenation in the book's own language. Each chapter is laid out once, so a paragraph that runs onto the next page keeps exactly the same lines.</p>
+          <p class="reading-sample" lang="en">I am already far north of London, and as I walk in the streets of Petersburgh, I feel <mark>a cold northern breeze play upon my cheeks, which braces my nerves and fills me with delight.</mark></p>
+          <ul>
+            <li><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 17V15H17V17ZM3 13V11H17V13ZM3 9V7H17V9ZM20 17Q19.58 17 19.29 16.71Q19 16.43 19 16Q19 15.57 19.29 15.29Q19.58 15 20 15Q20.43 15 20.71 15.29Q21 15.57 21 16Q21 16.43 20.71 16.71Q20.43 17 20 17ZM20 13Q19.58 13 19.29 12.71Q19 12.42 19 12Q19 11.57 19.29 11.29Q19.58 11 20 11Q20.43 11 20.71 11.29Q21 11.57 21 12Q21 12.42 20.71 12.71Q20.43 13 20 13ZM20 9Q19.58 9 19.29 8.71Q19 8.42 19 8Q19 7.57 19.29 7.29Q19.58 7 20 7Q20.43 7 20.71 7.29Q21 7.57 21 8Q21 8.42 20.71 8.71Q20.43 9 20 9Z"/></svg><span>Contents, bookmarks, search in book and a position slider</span></li>
+            <li><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M14 20V7H9V4H22V7H17V20ZM5 20V12H2V9H11V12H8V20Z"/></svg><span>Literata, Manrope, Atkinson Hyperlegible or the system font, in any size</span></li>
+            <li><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21Q8.25 21 5.62 18.38Q3 15.75 3 12Q3 8.25 5.62 5.62Q8.25 3 12 3Q12.35 3 12.69 3.02Q13.03 3.05 13.35 3.1Q12.33 3.82 11.71 4.99Q11.1 6.15 11.1 7.5Q11.1 9.75 12.68 11.32Q14.25 12.9 16.5 12.9Q17.88 12.9 19.02 12.29Q20.18 11.67 20.9 10.65Q20.95 10.97 20.98 11.31Q21 11.65 21 12Q21 15.75 18.38 18.38Q15.75 21 12 21Z"/></svg><span>A light or dark page, independent of the app theme</span></li>
+            <li><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 22Q9.93 22 8.1 21.21Q6.28 20.43 4.93 19.08Q3.58 17.73 2.79 15.9Q2 14.07 2 12Q2 9.92 2.79 8.1Q3.58 6.27 4.93 4.92Q6.28 3.57 8.1 2.79Q9.93 2 12 2Q14.08 2 15.9 2.79Q17.73 3.57 19.08 4.92Q20.43 6.27 21.21 8.1Q22 9.92 22 12Q22 14.07 21.21 15.9Q20.43 17.73 19.08 19.08Q17.73 20.43 15.9 21.21Q14.08 22 12 22ZM13 19.93Q15.98 19.55 17.99 17.31Q20 15.07 20 12Q20 8.92 17.99 6.69Q15.98 4.45 13 4.07Z"/></svg><span>Pages that follow your finger, or continuous scroll; no animation for e-ink</span></li>
+          </ul>
+        </div>
+        <div class="phones">
+          <div class="phone"><img data-light="../docs/screenshots/reader-light.png" data-dark="../docs/screenshots/reader-dark.png" src="../docs/screenshots/reader-light.png" alt="Reading a page" width="540" height="1200" loading="lazy"></div>
+          <div class="phone"><img data-light="../docs/screenshots/text-light.png" data-dark="../docs/screenshots/text-dark.png" src="../docs/screenshots/text-light.png" alt="Text settings sheet" width="540" height="1200" loading="lazy"></div>
+        </div>
+      </div>
+
+      <div class="feature">
+        <div class="text">
+          <p class="overline">Highlights</p>
+          <h2>Keep what matters</h2>
+          <p class="sub" style="margin-bottom:0">Press and hold a sentence, then drag the handles word by word. Pick a colour, add a note, or pass the text to the apps already on your phone.</p>
+          <ul>
+            <li><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M9.6 10 15 15.4 10 20.4Q9.4 21 8.6 21Q7.8 21 7.2 20.4L7.15 20.35L6.5 21H1.5L4.65 17.85L4.6 17.8Q4 17.2 4 16.4Q4 15.6 4.6 15ZM11.03 8.57 16 3.6Q16.6 3 17.4 3Q18.2 3 18.8 3.6L21.4 6.2Q22 6.8 22 7.6Q22 8.4 21.4 9L16.43 13.97Z"/></svg><span>Eight highlight colours, plus notes on any passage</span></li>
+            <li><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M11.9 22 16.45 10H18.55L23.1 22H21L19.93 18.95H15.08L14 22ZM4 19 2.6 17.6 7.65 12.55Q6.78 11.67 6.06 10.55Q5.35 9.42 4.75 8H6.85Q7.35 8.97 7.85 9.7Q8.35 10.42 9.05 11.15Q9.88 10.32 10.76 8.84Q11.65 7.35 12.1 6H1V4H8V2H10V4H17V6H14.1Q13.58 7.8 12.53 9.7Q11.48 11.6 10.45 12.6L12.85 15.05L12.1 17.1L9.05 13.97ZM15.7 17.2H19.3L17.5 12.1Z"/></svg><span>Translate, dictionary, copy and find in book</span></li>
+            <li><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 14V12H11V14ZM4 10V8H15V10ZM4 6V4H15V6ZM13 20V16.93L18.53 11.42Q18.75 11.2 19.02 11.1Q19.3 11 19.58 11Q19.88 11 20.15 11.11Q20.43 11.22 20.65 11.45L21.58 12.38Q21.78 12.6 21.89 12.88Q22 13.15 22 13.42Q22 13.7 21.9 13.99Q21.8 14.27 21.58 14.5L16.07 20ZM19.58 14.4 20.5 13.42 19.58 12.5 18.62 13.45Z"/></svg><span>All highlights in one place, filtered by book or by notes</span></li>
+            <li><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 22Q5.18 22 4.59 21.41Q4 20.82 4 20V10Q4 9.17 4.59 8.59Q5.18 8 6 8H9V10H6Q6 10 6 10Q6 10 6 10V20Q6 20 6 20Q6 20 6 20H18Q18 20 18 20Q18 20 18 20V10Q18 10 18 10Q18 10 18 10H15V8H18Q18.82 8 19.41 8.59Q20 9.17 20 10V20Q20 20.82 19.41 21.41Q18.82 22 18 22ZM11 16V4.82L9.4 6.43L8 5L12 1L16 5L14.6 6.43L13 4.82V16Z"/></svg><span>Export as Markdown through the share sheet</span></li>
+          </ul>
+        </div>
+        <div class="phones">
+          <div class="phone"><img data-light="../docs/screenshots/selection-light.png" data-dark="../docs/screenshots/selection-dark.png" src="../docs/screenshots/selection-light.png" alt="Selecting a sentence" width="540" height="1200" loading="lazy"></div>
+          <div class="phone"><img data-light="../docs/screenshots/highlights-light.png" data-dark="../docs/screenshots/highlights-dark.png" src="../docs/screenshots/highlights-light.png" alt="Highlights across books" width="540" height="1200" loading="lazy"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="screens">
+    <div class="wrap">
+      <p class="overline">Screens</p>
+      <h2>Light first, dark when you want it</h2>
+      <p class="sub">The interface speaks English or Ukrainian, chosen in Settings without changing the phone's language.</p>
+      <div class="seg" role="group" aria-label="Screenshot theme">
+        <button type="button" data-set="light" aria-pressed="true"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 17Q9.93 17 8.46 15.54Q7 14.07 7 12Q7 9.92 8.46 8.46Q9.93 7 12 7Q14.08 7 15.54 8.46Q17 9.92 17 12Q17 14.07 15.54 15.54Q14.08 17 12 17ZM5 13H1V11H5ZM23 13H19V11H23ZM11 5V1H13V5ZM11 23V19H13V23ZM6.4 7.75 3.88 5.32 5.3 3.85 7.7 6.35ZM18.7 20.15 16.28 17.62 17.6 16.25 20.12 18.68ZM16.25 6.4 18.68 3.88 20.15 5.3 17.65 7.7ZM3.85 18.7 6.38 16.27 7.75 17.6 5.33 20.12Z"/></svg>Light</button>
+        <button type="button" data-set="dark" aria-pressed="false"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21Q8.25 21 5.62 18.38Q3 15.75 3 12Q3 8.25 5.62 5.62Q8.25 3 12 3Q12.35 3 12.69 3.02Q13.03 3.05 13.35 3.1Q12.33 3.82 11.71 4.99Q11.1 6.15 11.1 7.5Q11.1 9.75 12.68 11.32Q14.25 12.9 16.5 12.9Q17.88 12.9 19.02 12.29Q20.18 11.67 20.9 10.65Q20.95 10.97 20.98 11.31Q21 11.65 21 12Q21 15.75 18.38 18.38Q15.75 21 12 21Z"/></svg>Dark</button>
+        <button type="button" data-set="uk" aria-pressed="false">Українська</button>
+      </div>
+      <div class="gallery" id="gallery"></div>
+    </div>
+  </section>
+
+  <section id="formats">
+    <div class="wrap">
+      <p class="overline">Formats</p>
+      <h2>Bring your own books</h2>
+      <p class="sub">Each book is copied into the app when you add it, so it keeps working if the original file moves. Open EPUB and FB2 files straight from a file manager or chat app.</p>
+      <div class="formats">
+        <div class="card"><span class="tag">EPUB 2 / 3</span><h3>EPUB</h3><p>Text, chapter titles from the table of contents, cover, title, author and language.</p></div>
+        <div class="card"><span class="tag">FB2 · FB2.ZIP</span><h3>FictionBook</h3><p>Sections, titles, epigraphs and poems, plus cover, title, author and language.</p></div>
+        <div class="card"><span class="tag">UTF-8 · CP1251</span><h3>Plain text</h3><p>The encoding is detected automatically, and chapters are found from lines like <i>Chapter 5</i> or <i>Розділ 5</i>.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="build">
+    <div class="wrap">
+      <p class="overline">Open source</p>
+      <h2>Build it yourself</h2>
+      <p class="sub">You need JDK 17 or newer and the Android SDK (platform 36).</p>
+      <div class="build">
+        <pre><span class="c"># debug APK → app/build/outputs/apk/debug/</span>
+./gradlew :app:assembleDebug
+
+<span class="c"># parsers, selection, search, progress</span>
+./gradlew :app:testDebugUnitTest</pre>
+        <div class="card">
+          <h3 style="margin-top:0">Under the hood</h3>
+          <p>Each chapter is laid out once as a single text layout, and a page is a window onto it. Your place is stored as chapter + character offset, so it survives any font change.</p>
+          <div class="stack"><span>Kotlin</span><span>Jetpack Compose</span><span>Material 3</span><span>Room</span><span>DataStore</span><span>Hilt</span><span>jsoup</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <span>Librarian · part of the Oxygen Theme family</span>
+    <span>Fonts: Manrope, Literata, Atkinson Hyperlegible Next (OFL 1.1) · Icons: Material Symbols (Apache 2.0) · jsoup (MIT)</span>
+  </div>
+</footer>
+
+<script>
+(function () {
+  var root = document.documentElement;
+  var sets = {
+    light: [["library-light", "Library"], ["reader-light", "Reading"], ["selection-light", "Selection"], ["controls-light", "Controls"],
+            ["text-light", "Text settings"], ["tray-light", "Actions menu"], ["highlights-light", "Highlights"], ["settings-light", "Settings"]],
+    dark:  [["library-dark", "Library"], ["reader-dark", "Reading"], ["selection-dark", "Selection"], ["controls-dark", "Controls"],
+            ["text-dark", "Text settings"], ["tray-dark", "Actions menu"], ["highlights-dark", "Highlights"], ["settings-dark", "Settings"]],
+    uk:    [["library-uk", "Бібліотека"], ["reader-uk", "Читання"]]
+  };
+  var gallery = document.getElementById("gallery");
+  function show(name) {
+    gallery.innerHTML = sets[name].map(function (s) {
+      return '<figure><div class="phone"><img src="../docs/screenshots/' + s[0] + '.png" alt="' + s[1] + '" width="540" height="1200" loading="lazy"></div><figcaption>' + s[1] + '</figcaption></figure>';
+    }).join("");
+    document.querySelectorAll(".seg button").forEach(function (b) { b.setAttribute("aria-pressed", String(b.dataset.set === name)); });
+  }
+  document.querySelectorAll(".seg button").forEach(function (b) { b.addEventListener("click", function () { show(b.dataset.set); }); });
+
+  function isDark() {
+    var t = root.getAttribute("data-theme");
+    return t ? t === "dark" : window.matchMedia("(prefers-color-scheme: dark)").matches;
+  }
+  var moon = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21Q8.25 21 5.62 18.38Q3 15.75 3 12Q3 8.25 5.62 5.62Q8.25 3 12 3Q12.35 3 12.69 3.02Q13.03 3.05 13.35 3.1Q12.33 3.82 11.71 4.99Q11.1 6.15 11.1 7.5Q11.1 9.75 12.68 11.32Q14.25 12.9 16.5 12.9Q17.88 12.9 19.02 12.29Q20.18 11.67 20.9 10.65Q20.95 10.97 20.98 11.31Q21 11.65 21 12Q21 15.75 18.38 18.38Q15.75 21 12 21Z"/></svg>', sun = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 17Q9.93 17 8.46 15.54Q7 14.07 7 12Q7 9.92 8.46 8.46Q9.93 7 12 7Q14.08 7 15.54 8.46Q17 9.92 17 12Q17 14.07 15.54 15.54Q14.08 17 12 17ZM5 13H1V11H5ZM23 13H19V11H23ZM11 5V1H13V5ZM11 23V19H13V23ZM6.4 7.75 3.88 5.32 5.3 3.85 7.7 6.35ZM18.7 20.15 16.28 17.62 17.6 16.25 20.12 18.68ZM16.25 6.4 18.68 3.88 20.15 5.3 17.65 7.7ZM3.85 18.7 6.38 16.27 7.75 17.6 5.33 20.12Z"/></svg>';
+  function apply() {
+    var dark = isDark();
+    document.querySelectorAll("img[data-light]").forEach(function (img) { img.src = dark ? img.dataset.dark : img.dataset.light; });
+    var btn = document.getElementById("themeToggle");
+    btn.innerHTML = dark ? sun : moon;
+    btn.setAttribute("aria-label", dark ? "Switch to light theme" : "Switch to dark theme");
+  }
+  try { var saved = localStorage.getItem("librarian-theme"); if (saved) root.setAttribute("data-theme", saved); } catch (e) {}
+  document.getElementById("themeToggle").addEventListener("click", function () {
+    var next = isDark() ? "light" : "dark";
+    root.setAttribute("data-theme", next);
+    try { localStorage.setItem("librarian-theme", next); } catch (e) {}
+    apply();
+    show(next);
+  });
+  window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change", apply);
+  apply();
+  show(isDark() ? "dark" : "light");
+
+  var top = document.getElementById("top");
+  window.addEventListener("scroll", function () { top.classList.toggle("scrolled", window.scrollY > 8); }, { passive: true });
+})();
+</script>
+</body>
+</html>

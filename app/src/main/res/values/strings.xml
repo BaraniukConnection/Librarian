@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name" translatable="false">Librarian</string>
+
+    <string name="action_back">Back</string>
+    <string name="action_cancel">Cancel</string>
+    <string name="action_close">Close</string>
+    <string name="action_delete">Delete</string>
+    <string name="action_save">Save</string>
+    <string name="action_more">More</string>
+    <string name="action_search">Search</string>
+    <string name="action_add_book">Add Book</string>
+    <string name="action_export">Export</string>
+    <string name="action_open_with">Open with</string>
+    <string name="action_show_actions">Show actions</string>
+    <string name="action_hide_actions">Hide actions</string>
+
+    <string name="library">Library</string>
+    <string name="library_reading_now">Reading now</string>
+    <string name="library_all_books">All books · %1$d</string>
+    <string name="library_search_hint">Title or author…</string>
+    <string name="library_nothing_found">Nothing found. Try part of the title or the author\'s surname.</string>
+    <string name="library_shelf_empty">No books on this shelf yet.</string>
+    <string name="library_empty_title">The shelf is empty</string>
+    <string name="library_empty_text">Add an EPUB, FB2 or TXT file. Books are kept inside the app, so they open offline.</string>
+
+    <string name="shelf_all">All</string>
+    <string name="shelf_reading">Reading</string>
+    <string name="shelf_to_read">To read</string>
+    <string name="shelf_finished">Finished</string>
+
+    <string name="sort_recent">Recent</string>
+    <string name="sort_title">Title</string>
+    <string name="sort_author">Author</string>
+
+    <string name="book_new">New</string>
+    <string name="book_finished">Finished</string>
+    <string name="percent" translatable="false">%1$d%%</string>
+    <string name="book_mark_finished">Mark as finished</string>
+    <string name="book_mark_unread">Mark as unfinished</string>
+    <string name="book_delete">Remove from library</string>
+    <string name="book_delete_title">Remove the book?</string>
+    <string name="book_delete_text">«%1$s» will be removed together with its bookmarks and highlights.</string>
+
+    <plurals name="import_added">
+        <item quantity="one">Book added</item>
+        <item quantity="other">Books added: %1$d</item>
+    </plurals>
+    <string name="import_existing">This book is already on the shelf</string>
+    <string name="import_failed">Couldn\'t open the file. EPUB, FB2 and TXT are supported.</string>
+
+    <string name="duration_m">≈ %1$d min</string>
+    <string name="duration_hm">≈ %1$d h %2$d min</string>
+
+    <string name="highlights">Highlights</string>
+    <string name="highlights_with_notes">With notes</string>
+    <string name="highlights_empty_title">No highlights yet</string>
+    <string name="highlights_empty_text">While reading, press and hold a sentence and pick a colour.</string>
+    <string name="highlights_filter_empty">Nothing here with this filter.</string>
+    <string name="highlight_delete_title">Delete the highlight?</string>
+    <plurals name="highlights_count">
+        <item quantity="one">%1$d highlight</item>
+        <item quantity="other">%1$d highlights</item>
+    </plurals>
+
+    <string name="reader_failed_title">Can\'t open the book</string>
+    <string name="reader_failed_text">The file may be damaged. Remove it from the library and add it again.</string>
+    <string name="reader_toc">Contents</string>
+    <string name="reader_part">Part %1$d</string>
+    <string name="reader_bookmarks">Bookmarks</string>
+    <string name="reader_bookmarks_empty">No bookmarks yet. Tap the bookmark at the top to keep this page.</string>
+    <string name="reader_bookmark_add">Add bookmark</string>
+    <string name="reader_bookmark_remove">Remove bookmark</string>
+    <string name="reader_highlights_empty">No highlights in this book yet.</string>
+    <string name="reader_search">Search in Book</string>
+    <string name="reader_search_hint">Word or phrase…</string>
+    <string name="reader_search_nothing">Nothing found in this book.</string>
+    <string name="reader_theme">Theme</string>
+    <string name="reader_text">Text</string>
+    <string name="reader_smaller">Smaller text</string>
+    <string name="reader_bigger">Bigger text</string>
+    <string name="reader_font">Font</string>
+    <string name="reader_font_system">System</string>
+    <string name="reader_spacing">Line spacing</string>
+    <string name="reader_spacing_tight">Tight</string>
+    <string name="reader_spacing_normal">Normal</string>
+    <string name="reader_spacing_loose">Loose</string>
+    <string name="reader_page">Page</string>
+    <string name="reader_page_app">Same as app</string>
+    <string name="reader_paging">Turning</string>
+    <string name="reader_paging_pages">Pages</string>
+    <string name="reader_paging_scroll">Scroll</string>
+    <string name="reader_hyphenation">Hyphenation</string>
+    <string name="reader_page_of">p. %1$d of %2$d · %3$d%%</string>
+    <string name="reader_minutes_left">%1$d min left in chapter</string>
+    <string name="reader_chapter_end">Last page of the chapter</string>
+    <string name="reader_previous" translatable="false">← %1$s</string>
+    <string name="reader_next">Next: %1$s</string>
+    <string name="reader_note">Note</string>
+    <string name="reader_note_hint">Your thought about this passage…</string>
+    <string name="reader_translate">Translate</string>
+    <string name="reader_dictionary">Dictionary</string>
+    <string name="reader_copy">Copy</string>
+    <string name="reader_find">Find in Book</string>
+
+    <string name="settings">Settings</string>
+    <string name="settings_appearance">Appearance</string>
+    <string name="settings_theme">Theme</string>
+    <string name="settings_language">Language</string>
+    <string name="settings_reading">Reading</string>
+    <string name="settings_page_animation">Page turn animation</string>
+    <string name="settings_page_animation_hint">Turn it off on e-ink screens: pages will change instantly.</string>
+    <string name="settings_about">About</string>
+    <string name="settings_version">Version %1$s</string>
+    <string name="theme_system">System</string>
+    <string name="theme_light">Light</string>
+    <string name="theme_dark">Dark</string>
+    <string name="license_ofl" translatable="false">SIL Open Font License 1.1</string>
+    <string name="license_apache" translatable="false">Apache License 2.0</string>
+    <string name="license_mit" translatable="false">MIT License</string>
+</resources>

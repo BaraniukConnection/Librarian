@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="action_back">Назад</string>
+    <string name="action_cancel">Скасувати</string>
+    <string name="action_close">Закрити</string>
+    <string name="action_delete">Видалити</string>
+    <string name="action_save">Зберегти</string>
+    <string name="action_more">Більше</string>
+    <string name="action_search">Пошук</string>
+    <string name="action_add_book">Додати книгу</string>
+    <string name="action_export">Експорт</string>
+    <string name="action_open_with">Відкрити за допомогою</string>
+    <string name="action_show_actions">Показати дії</string>
+    <string name="action_hide_actions">Сховати дії</string>
+
+    <string name="library">Бібліотека</string>
+    <string name="library_reading_now">Читаю зараз</string>
+    <string name="library_all_books">Усі книги · %1$d</string>
+    <string name="library_search_hint">Назва або автор…</string>
+    <string name="library_nothing_found">Нічого не знайшлося. Спробуйте частину назви чи прізвище автора.</string>
+    <string name="library_shelf_empty">На цій полиці поки порожньо.</string>
+    <string name="library_empty_title">Полиця порожня</string>
+    <string name="library_empty_text">Додайте файл EPUB, FB2 або TXT. Книги зберігаються в застосунку, тож відкриваються без інтернету.</string>
+
+    <string name="shelf_all">Усі</string>
+    <string name="shelf_reading">Читаю</string>
+    <string name="shelf_to_read">Прочитати</string>
+    <string name="shelf_finished">Прочитано</string>
+
+    <string name="sort_recent">Нещодавні</string>
+    <string name="sort_title">За назвою</string>
+    <string name="sort_author">За автором</string>
+
+    <string name="book_new">Нова</string>
+    <string name="book_finished">Прочитано</string>
+    <string name="book_mark_finished">Позначити прочитаною</string>
+    <string name="book_mark_unread">Позначити недочитаною</string>
+    <string name="book_delete">Прибрати з бібліотеки</string>
+    <string name="book_delete_title">Прибрати книгу?</string>
+    <string name="book_delete_text">«%1$s» зникне з полиці разом із закладками й виділеннями.</string>
+
+    <plurals name="import_added">
+        <item quantity="one">Додано книг: %1$d</item>
+        <item quantity="few">Додано книг: %1$d</item>
+        <item quantity="many">Додано книг: %1$d</item>
+        <item quantity="other">Додано книг: %1$d</item>
+    </plurals>
+    <string name="import_existing">Ця книга вже на полиці</string>
+    <string name="import_failed">Не вдалося відкрити файл. Підтримуються EPUB, FB2 і TXT.</string>
+
+    <string name="duration_m">≈ %1$d хв</string>
+    <string name="duration_hm">≈ %1$d год %2$d хв</string>
+
+    <string name="highlights">Виділення</string>
+    <string name="highlights_with_notes">З нотатками</string>
+    <string name="highlights_empty_title">Виділень поки немає</string>
+    <string name="highlights_empty_text">Під час читання натисніть і утримуйте речення, а тоді оберіть колір.</string>
+    <string name="highlights_filter_empty">З таким фільтром тут порожньо.</string>
+    <string name="highlight_delete_title">Видалити виділення?</string>
+    <plurals name="highlights_count">
+        <item quantity="one">%1$d виділення</item>
+        <item quantity="few">%1$d виділення</item>
+        <item quantity="many">%1$d виділень</item>
+        <item quantity="other">%1$d виділення</item>
+    </plurals>
+
+    <string name="reader_failed_title">Не вдається відкрити книгу</string>
+    <string name="reader_failed_text">Можливо, файл пошкоджено. Приберіть його з бібліотеки й додайте знову.</string>
+    <string name="reader_toc">Зміст</string>
+    <string name="reader_part">Частина %1$d</string>
+    <string name="reader_bookmarks">Закладки</string>
+    <string name="reader_bookmarks_empty">Закладок поки немає. Торкніться закладки вгорі, щоб зберегти цю сторінку.</string>
+    <string name="reader_bookmark_add">Додати закладку</string>
+    <string name="reader_bookmark_remove">Прибрати закладку</string>
+    <string name="reader_highlights_empty">У цій книзі виділень поки немає.</string>
+    <string name="reader_search">Пошук у книзі</string>
+    <string name="reader_search_hint">Слово чи фраза…</string>
+    <string name="reader_search_nothing">У цій книзі такого немає.</string>
+    <string name="reader_theme">Тема</string>
+    <string name="reader_text">Текст</string>
+    <string name="reader_smaller">Менший шрифт</string>
+    <string name="reader_bigger">Більший шрифт</string>
+    <string name="reader_font">Шрифт</string>
+    <string name="reader_font_system">Системний</string>
+    <string name="reader_spacing">Міжрядковий інтервал</string>
+    <string name="reader_spacing_tight">Щільно</string>
+    <string name="reader_spacing_normal">Звичайно</string>
+    <string name="reader_spacing_loose">Просторо</string>
+    <string name="reader_page">Сторінка</string>
+    <string name="reader_page_app">Як у застосунку</string>
+    <string name="reader_paging">Гортання</string>
+    <string name="reader_paging_pages">Сторінки</string>
+    <string name="reader_paging_scroll">Прокрутка</string>
+    <string name="reader_hyphenation">Переноси слів</string>
+    <string name="reader_page_of">стор. %1$d з %2$d · %3$d%%</string>
+    <string name="reader_minutes_left">%1$d хв до кінця розділу</string>
+    <string name="reader_chapter_end">Остання сторінка розділу</string>
+    <string name="reader_next">Далі: %1$s</string>
+    <string name="reader_note">Нотатка</string>
+    <string name="reader_note_hint">Ваша думка про цей уривок…</string>
+    <string name="reader_translate">Перекласти</string>
+    <string name="reader_dictionary">Словник</string>
+    <string name="reader_copy">Копіювати</string>
+    <string name="reader_find">Знайти в книзі</string>
+
+    <string name="settings">Налаштування</string>
+    <string name="settings_appearance">Вигляд</string>
+    <string name="settings_theme">Тема</string>
+    <string name="settings_language">Мова</string>
+    <string name="settings_reading">Читання</string>
+    <string name="settings_page_animation">Анімація гортання</string>
+    <string name="settings_page_animation_hint">Вимкніть на e-ink екранах: сторінки змінюватимуться миттєво.</string>
+    <string name="settings_about">Про застосунок</string>
+    <string name="settings_version">Версія %1$s</string>
+    <string name="theme_system">Як у системі</string>
+    <string name="theme_light">Світла</string>
+    <string name="theme_dark">Темна</string>
+</resources>
